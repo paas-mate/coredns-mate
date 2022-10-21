@@ -1,0 +1,18 @@
+.:5353 {
+    bind {$POD_IP}
+    cache 30
+    errors
+    log {
+    }
+    health {$POD_IP}:8000
+    kubernetes cluster.local in-addr.arpa ip6.arpa {
+      pods insecure
+      fallthrough in-addr.arpa ip6.arpa
+    }
+    loadbalance round_robin
+    prometheus {$POD_IP}:9153
+    forward . /etc/resolv.conf {
+        policy random
+    }
+    reload
+}
